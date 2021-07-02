@@ -60,8 +60,9 @@ class PeopleController extends Controller
      * @param  \App\Models\People  $people
      * @return \Illuminate\Http\Response
      */
-    public function show(People $people)
+    public function show($people)
     {
+        $people = People::find($people);
         return response(['people' => new PeopleResource($people), 'message' => 'Retrieved successfully'], 200);
     }
 
@@ -72,8 +73,9 @@ class PeopleController extends Controller
      * @param  \App\Models\People  $people
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, People $people)
+    public function update(Request $request, $people)
     {
+        $people = People::find($people);
         $people->update($request->all());
 
         return response(['people' => new PeopleResource($people), 'message' => 'Update successfully'], 200);
@@ -85,8 +87,10 @@ class PeopleController extends Controller
      * @param  \App\Models\People  $people
      * @return \Illuminate\Http\Response
      */
-    public function destroy(People $people)
+    public function destroy($people)
     {
+        $people = People::find($people);
+
         $people->delete();
 
         return response(['message' => 'Deleted']);
