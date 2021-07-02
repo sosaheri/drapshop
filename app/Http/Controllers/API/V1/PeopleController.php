@@ -63,6 +63,10 @@ class PeopleController extends Controller
     public function show($people)
     {
         $people = People::find($people);
+
+        if (is_null($people)) {
+            return response(['message' => 'People not found for show.',], 404);
+        }
         return response(['people' => new PeopleResource($people), 'message' => 'Retrieved successfully'], 200);
     }
 
@@ -76,6 +80,10 @@ class PeopleController extends Controller
     public function update(Request $request, $people)
     {
         $people = People::find($people);
+        if (is_null($people)) {
+         return response(['message' => 'People not found for update.'], 404);
+        }
+
         $people->update($request->all());
 
         return response(['people' => new PeopleResource($people), 'message' => 'Update successfully'], 200);
