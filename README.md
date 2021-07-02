@@ -54,14 +54,18 @@ php artisan key:generate
 php artisan migrate --seed
 ```
 
-## Licencia
+## Forma Alternativa de probar API
 
 Alternativamente, pueden dirigirse a las siguiente  URLS publicas y consultar los datos de la API
 
-- Personas [GET] (https://i-am-heri1.ml/api/people)
-- Prodcutos [GET] (https://i-am-heri1.ml/api/products)
+- Listar Personas GET (https://i-am-heri1.ml/api/people)
+- Mostrar Persona especifica, debe sustituir id en url por el deseado GET (https://i-am-heri1.ml/api/people/id)
+- Listar Productos GET (https://i-am-heri1.ml/api/products)
+- Mostrar Producto especifico, debe sustituir id en url por el deseado GET (https://i-am-heri1.ml/api/products/id)
 
 Para crear o actualizar datos requiere crear un token de autorizacion, se recomienda utilizar POSTMAN para este fin, se anexa copia de collection para su comodidad.
+
+descague [POSTMAN Collection](https://asdasd.com)
 
 
 
