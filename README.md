@@ -3,6 +3,14 @@
 
 ## Sobre la aplicación
 
+Aplicación para prueba de habilidades con APIs y backend para DrapShop
+
+- Cuenta con dos CRUDs para gestionar data de Personas y Productos
+- Validación de los datos ingresados según parametros del negocio
+- Se habilito autenticación con Oauth para el uso del API de forma parcial, las consultas son libres y el almacena debe ser con permisologias
+- Se agrego Seeders para pruebas
+
+
 ## Requisitos
 
 - PHP >= 7.4
