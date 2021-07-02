@@ -7,6 +7,9 @@ use App\Models\People;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\PeopleResource;
+use App\Http\Requests\PeopleStoreRequest;
+use App\Http\Requests\PeopleUpdateRequest;
+
 
 class PeopleController extends Controller
 {
@@ -18,7 +21,7 @@ class PeopleController extends Controller
     public function index()
     {
         $people = People::all();
-        return response([ 'people' => PeopleResource::collection($people), 'message' => 'Retrieved successfully'], 200);
+        return response([ 'people' => PeopleResource::collection($people), 'message' => 'Dato entregado exitosamente'], 200);
     }
 
     /**
@@ -27,31 +30,13 @@ class PeopleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PeopleStoreRequest $request)
     {
-        $data = $request->all();
-
-        $validator = Validator::make($data, [
-            'people_dni' => 'required|max:10',
-            'people_fname' => 'required|max:255',
-            'people_sname' => 'nullable|max:255',
-            'people_fsurname' => 'required|max:255',
-            'people_ssurname' => 'nullable|max:255',
-            'people_birth_at' => 'required',
-            'people_phone' => 'nullable|max:12',
-            'people_address' => 'nullable',
-            'people_email' => 'required|max:255|email:rfc,dns',
-            'people_age' => 'numeric|required|min:18|max:65',
-
-        ]);
-
-        if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
-        }
+        $data = $request->validated();
 
         $people = People::create($data);
 
-        return response(['people' => new PeopleResource($people), 'message' => 'Created successfully'], 201);
+        return response(['people' => new PeopleResource($people), 'message' => 'Creado exitosamente'], 201);
     }
 
     /**
@@ -65,9 +50,9 @@ class PeopleController extends Controller
         $people = People::find($people);
 
         if (is_null($people)) {
-            return response(['message' => 'People not found for show.',], 404);
+            return response(['message' => 'Persona no encontrada para mostrar.',], 404);
         }
-        return response(['people' => new PeopleResource($people), 'message' => 'Retrieved successfully'], 200);
+        return response(['people' => new PeopleResource($people), 'message' => 'Dato entregado exitosamente'], 200);
     }
 
     /**
@@ -77,16 +62,16 @@ class PeopleController extends Controller
      * @param  \App\Models\People  $people
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $people)
+    public function update(PeopleUpdateRequest $request, $people)
     {
         $people = People::find($people);
         if (is_null($people)) {
-         return response(['message' => 'People not found for update.'], 404);
+         return response(['message' => 'Persona no encontrada para actualización.'], 404);
         }
 
         $people->update($request->all());
 
-        return response(['people' => new PeopleResource($people), 'message' => 'Update successfully'], 200);
+        return response(['people' => new PeopleResource($people), 'message' => 'Actualizado exitosamente'], 200);
     }
 
     /**
@@ -101,6 +86,6 @@ class PeopleController extends Controller
 
         $people->delete();
 
-        return response(['message' => 'Deleted']);
+        return response(['message' => 'Elemento Borrado']);
     }
 }
