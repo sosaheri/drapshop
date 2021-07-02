@@ -84,6 +84,10 @@ class PeopleController extends Controller
     {
         $people = People::find($people);
 
+        if (is_null($people)) {
+        return response(['message' => 'No existe el elemento.'], 404);
+        }
+
         $people->delete();
 
         return response(['message' => 'Elemento Borrado']);

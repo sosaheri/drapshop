@@ -94,8 +94,15 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy($product)
     {
+        $product = Product::find($product);
+
+
+        if (is_null($product)) {
+             return response(['message' => 'No existe el elemento.'], 404);
+        }
+
         $product->delete();
 
         return response(['message' => 'Borrado']);
