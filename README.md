@@ -65,7 +65,7 @@ Alternativamente, pueden dirigirse a las siguiente  URLS publicas y consultar lo
 
 Para crear o actualizar datos requiere crear un token de autorizacion, se recomienda utilizar POSTMAN para este fin, se anexa copia de collection para su comodidad.
 
-descague [POSTMAN Collection](https://asdasd.com)
+descague [POSTMAN Collection](https://www.getpostman.com/collections/fb4a56c96144b1960641)
 
 
 
