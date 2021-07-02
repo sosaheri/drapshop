@@ -7,6 +7,8 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\ProductResource;
+use App\Http\Requests\ProductStoreRequest;
+use App\Http\Requests\ProductUpdateRequest;
 
 class ProductController extends Controller
 {
@@ -18,7 +20,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return response([ 'products' => ProductResource::collection($products), 'message' => 'Retrieved successfully'], 200);
+        return response([ 'products' => ProductResource::collection($products), 'message' => 'Dato entregado exitosamente'], 200);
     }
 
     /**
@@ -27,26 +29,21 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductStoreRequest $request)
     {
-        $data = $request->all();
+        $data = $request->validated();
 
-        $validator = Validator::make($data, [
-            'product_name' => 'required|max:255',
-            'product_type' => 'required|in:hogar,empresarial',
-            'product_amount' => 'numeric|required',
-            'product_price' => 'required|numeric',
-            'product_total' => 'required|numeric',
-            'product_liable' => 'nullable|max:255'
-        ]);
+        $product = new Product;
 
-        if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
-        }
+        $product->product_name = $data['product_name'];
+        $product->product_type = $data['product_type'];
+        $product->product_amount = $data['product_amount'];
+        $product->product_price = $data['product_price'];
+        $product->product_total = $data['product_amount'] * $data['product_price'];
+        $product->product_liable = $data['product_liable'];
+        $product->save();
 
-        $product = Product::create($data);
-
-        return response(['product' => new ProductResource($product), 'message' => 'Created successfully'], 201);
+        return response(['product' => new ProductResource($product), 'message' => 'Creado exitosamente'], 201);
     }
 
     /**
@@ -57,7 +54,11 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return response(['product' => new ProductResource($product), 'message' => 'Retrieved successfully'], 200);
+        if (is_null($product)) {
+          return response(['message' => 'Producto no encontrado para mostrar.'], 404);
+        }
+
+        return response(['product' => new ProductResource($product), 'message' => 'Dato entregado exitosamente'], 200);
     }
 
     /**
@@ -67,11 +68,24 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductUpdateRequest $request, Product $product)
     {
-        $product->update($request->all());
+        $data = $request->validated();
 
-        return response(['product' => new ProductResource($product), 'message' => 'Update successfully'], 200);
+        if (is_null($product)) {
+         return response(['message' => 'Producto no encontrado para actualización.'], 404);
+        }
+
+        $product->product_name = $data['product_name'];
+        $product->product_type = $data['product_type'];
+        $product->product_amount = $data['product_amount'];
+        $product->product_price = $data['product_price'];
+        $product->product_total = $data['product_amount'] * $data['product_price'];
+        $product->product_liable = $data['product_liable'];
+        $product->update();
+
+
+        return response(['product' => new ProductResource($product), 'message' => 'Actualizado exitosamente'], 200);
     }
 
     /**
@@ -84,6 +98,6 @@ class ProductController extends Controller
     {
         $product->delete();
 
-        return response(['message' => 'Deleted']);
+        return response(['message' => 'Borrado']);
     }
 }
