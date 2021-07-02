@@ -21,7 +21,7 @@ class CreatePeopleTable extends Migration
             $table->string('people_fsurname', 255);
             $table->string('people_ssurname', 255)->nullable();
             $table->date('people_birth_at');
-            $table->string('people_phone', 255)->nullable();
+            $table->string('people_phone', 12)->nullable();
             $table->text('people_address')->nullable();
             $table->string('people_email', 255);
             $table->integer('people_age');
