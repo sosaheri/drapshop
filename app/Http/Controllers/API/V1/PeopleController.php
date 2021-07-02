@@ -69,7 +69,7 @@ class PeopleController extends Controller
          return response(['message' => 'Persona no encontrada para actualización.'], 404);
         }
 
-        $people->update($request->all());
+        $people->update($request->validated());
 
         return response(['people' => new PeopleResource($people), 'message' => 'Actualizado exitosamente'], 200);
     }
